@@ -14,7 +14,7 @@ namespace MusicStore.Database.Repositories
             Context = context;
         }
 
-        public MusicStoreContext Context { get; protected set; }
+        public MusicStoreContext Context { get; }
 
         public IQueryable<Artist> All()
         {

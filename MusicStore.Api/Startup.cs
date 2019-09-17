@@ -19,6 +19,7 @@ using MusicStore.Core.Album;
 using System.Reflection;
 using MusicStore.Core.Artist;
 using Swashbuckle.AspNetCore.Swagger;
+using MusicStore.Core.Song;
 
 namespace MusicStore.Api
 {
@@ -33,7 +34,6 @@ namespace MusicStore.Api
         public IContainer ApplicationContainer { get; private set; }
 
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -43,7 +43,6 @@ namespace MusicStore.Api
                 {
                     Version = "v1",
                     Title = "MusicStoreApi",
-                    Description = "Testing"  
                  });
             });
 
@@ -54,9 +53,12 @@ namespace MusicStore.Api
                 .WithParameter("options", dbContextOptionsBuilder.Options)
                 .AsSelf()
                 .InstancePerLifetimeScope();
+
             builder.RegisterType<AlbumRepository>().As<IRepository<Album>>().InstancePerLifetimeScope();
             builder.RegisterType<ArtistRepository>().As<IRepository<Artist>>().InstancePerLifetimeScope();
+            builder.RegisterType<SongRepository>().As<IRepository<Song>>().InstancePerLifetimeScope();
 
+            builder.RegisterType<SongService>().As<ISongService>().InstancePerLifetimeScope();
             builder.RegisterType<AlbumService>().As<IAlbumService>().InstancePerLifetimeScope();
             builder.RegisterType<ArtistService>().As<IArtistService>().InstancePerLifetimeScope();
 
@@ -67,7 +69,6 @@ namespace MusicStore.Api
             return new AutofacServiceProvider(this.ApplicationContainer);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

@@ -17,7 +17,7 @@ namespace MusicStore.Core.Artist
         }
         public async Task<IEnumerable<Database.Models.Artist>> GetArtistsByGenreAsync(string genre)
         {
-            return await this.artistRepository.Filter(c => c.Genre.Name.Contains(genre)).Include(c => c.Albums).ToListAsync();
+            return await this.artistRepository.Filter(c => c.Genre.Name.Contains(genre)).ToListAsync();
         }
     }
 }
